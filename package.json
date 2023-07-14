@@ -1,18 +1,47 @@
 {
-  "name": "books-wagon-clone",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "eslint": "8.44.0",
-    "eslint-config-next": "13.4.9",
-    "next": "13.4.9",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  }
+	"name": "books-wagon-clone",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"prepare": "husky install"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@mui/material": "^5.14.0",
+		"@reduxjs/toolkit": "^1.9.5",
+		"@tanstack/react-query": "^4.29.19",
+		"date-fns": "^2.30.0",
+		"next": "13.4.9",
+		"next-seo": "^6.1.0",
+		"react": "18.2.0",
+		"react-cookie": "^4.1.1",
+		"react-dom": "18.2.0",
+		"react-icons": "^4.10.1",
+		"react-redux": "^8.1.1",
+		"react-select": "^5.7.4",
+		"react-slick": "^0.29.0",
+		"redux": "^4.2.1",
+		"redux-logger": "^3.0.6",
+		"redux-saga": "^1.2.3",
+		"redux-thunk": "^2.4.2",
+		"reselect": "^4.1.8",
+		"slick-carousel": "^1.8.1",
+		"sonner": "^0.6.2",
+		"tippy.js": "^6.3.7",
+		"universal-cookie": "^4.0.4",
+		"use-debounce": "^9.0.4",
+		"validator": "^13.9.0"
+	},
+	"devDependencies": {
+		"eslint": "8.44.0",
+		"eslint-config-next": "13.4.9",
+		"husky": "^8.0.0",
+		"prettier": "^2.8.7",
+		"pretty-quick": "^3.1.3"
+	}
 }
