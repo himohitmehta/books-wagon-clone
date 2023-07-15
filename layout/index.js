@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import AppFooter from "components/AppFooter";
 import AppHeader from "components/AppHeader";
 import Head from "next/head";
 import React from "react";
@@ -21,6 +22,7 @@ const BaseLayout = ({ children }) => {
 
 			<AppHeader />
 			<Box sx={{ marginTop: "128px" }}>{children}</Box>
+			<AppFooter />
 		</Box>
 	);
 };

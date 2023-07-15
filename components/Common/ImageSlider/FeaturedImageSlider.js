@@ -9,19 +9,26 @@ import AppImage from "../AppImage";
 
 const styles = {
 	container: {
+		pb: 10,
+		// maxHeight: "640px",
 		"& .hero-image-slider": {
 			width: "100%",
 			objectFit: "contain",
 			maxWidth: "100%",
 			height: "100%",
+			maxHeight: "720px",
+			mx: 2,
+			px: 2,
 		},
 		".slick-prev ,.slick-next": {
 			color: "black !important",
 			zIndex: 200,
+			top: "104% !important",
 		},
 
 		".slick-prev": {
 			left: "20px !important",
+			bottom: "10px !important",
 		},
 		".slick-next ": {
 			right: "20px !important",
@@ -41,7 +48,11 @@ const styles = {
 		},
 	},
 };
-export default function HeroImageSlider({ data = [], title, customSettings }) {
+export default function FeaturedImageSlider({
+	data = [],
+	title,
+	customSettings,
+}) {
 	const [sliderRef, setSliderRef] = useState(null);
 	const [index, setIndex] = useState(0);
 	const beforeChange = (prev, next) => {
@@ -50,7 +61,7 @@ export default function HeroImageSlider({ data = [], title, customSettings }) {
 
 	const settings = {
 		infinite: true,
-		slidesToShow: 1,
+		slidesToShow: 2,
 		slidesToScroll: 1,
 		arrows: true,
 		dots: true,
@@ -93,32 +104,6 @@ export default function HeroImageSlider({ data = [], title, customSettings }) {
 				...styles.container,
 			}}
 		>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: title ? "space-between" : "flex-end",
-					flex: 1,
-					marginBottom: "8px",
-				}}
-			>
-				{title && (
-					<Typography
-						sx={{
-							fontWeight: "700",
-							fontSize: "18px",
-							// paddingLeft: "15px",
-							flex: 0.8,
-							lineHeight: "38px",
-							letterSpacing: ` -0.01em`,
-							color: (theme) => theme.palette.text.primary,
-						}}
-					>
-						{title}
-					</Typography>
-				)}
-			</div>
-
 			{data.length > 0 && (
 				<Slider
 					ref={setSliderRef}
@@ -139,6 +124,22 @@ export default function HeroImageSlider({ data = [], title, customSettings }) {
 						})}
 				</Slider>
 			)}
+			{/* <Typography
+				sx={{
+					fontWeight: "700",
+					fontSize: "18px",
+					// paddingLeft: "15px",
+					flex: 0.8,
+					lineHeight: "38px",
+					letterSpacing: ` -0.01em`,
+					color: (theme) => theme.palette.text.primary,
+					textAlign: "center",
+					mt: 2,
+				}}
+			>
+				{title || "Title"}
+			</Typography> */}
+
 			{/* {data.length === 0 && <EmptyState text={"No images found"} />} */}
 		</Box>
 	);

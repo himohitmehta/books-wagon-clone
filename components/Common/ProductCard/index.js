@@ -1,119 +1,191 @@
 import { Box, Card, CardActions, CardContent, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import AppLink from "../AppLink";
 import AppImage from "../AppImage";
 import { FaCartPlus } from "react-icons/fa";
-import { PrimaryButton } from "../Buttons";
+import { OutlinedButton, PrimaryButton } from "../Buttons";
+import bookImage from "public/assets/books/book_1.jpg";
+import getCurrencyValue from "utils/getCurrencyValue";
+import { useDispatch } from "react-redux";
+import { setSelectedBookData } from "store/books/booksSlice";
+import ProductPreviewDialog from "../BaseDialog/ProductPreviewDialog";
 
 const styles = {
 	card: {
-		display: "flex",
-		// margin: "8px",
-		justifyContent: "space-between",
-		flexDirection: "column",
-		borderRadius: "20px",
-		// border: "1px solid rgba(0,0,0,0.1)",
+		// position: "relative",
+		maxWidth: "172px",
+		textAlign: "center",
+		border: "1px solid transparent",
+		borderRadius: "4px",
+		".card_actions": {
+			visibility: "hidden",
+		},
 		"&:hover": {
-			// border: "1px solid rgba(0,0,0,1)",
-			// boxShadow:
-			// 	"rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+			// border: "1px solid #000",
+			".card_actions": {
+				visibility: "visible",
+			},
 		},
 	},
-	cardImage: {
-		width: "100%",
-		minHeight: "250px",
-		// maxHeight: "250px",
-		overflow: "hidden",
-		// borderRadius: "4px",
-
-		// width: "150px",
+	imageContainer: {
+		position: "relative",
+		"&:hover": {
+			cursor: "pointer",
+		},
+		".card_image": {
+			width: "100%",
+			objectFit: "contain",
+			maxWidth: "100%",
+			height: "100%",
+			maxHeight: "200px",
+		},
 	},
-	cardContent: {},
-	cardActions: {},
+	imageOverlay: {
+		position: "absolute",
+		// top: "180",
+		left: "0",
+		bottom: "16px",
+		right: "0",
+	},
+	title: {
+		fontSize: "14px",
+		fontWeight: 700,
+		lineHeight: "20px",
+		color: "#676767",
+		mt: 1,
+	},
+	author: {
+		fontSize: "14px",
+		fontWeight: 400,
+		lineHeight: "20px",
+		color: "#332E2E",
+		wordWrap: "break-word",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+		overflow: "hidden",
+		width: "100px",
+		textAlign: "center",
+		margin: "0 auto",
+		maxWidth: "100px",
+		mt: 1,
+	},
+	price: {
+		fontSize: "16px",
+		fontWeight: 400,
+		lineHeight: "20px",
+		color: "#D51912",
+		mt: 1,
+		mb: 2,
+		"& strike": {
+			fontSize: "13px",
+			lineHeight: "1.5",
+			color: "#212529",
+			ml: 1,
+		},
+	},
 };
 
-export default function ProductCard() {
+export default function ProductCard({ data, className, ...props }) {
+	/**
+	 * title: 'Your Time Will Come',
+            author: ' Saranya Umakanthan',
+            selling_price: '119',
+            max_retail_price: '199',
+            image_url: 'https://d2g9wbak88g7ch.cloudfront.net/productimages/images200/704/9789354400704.jpg',
+            publisher: ' Fingerprint! Publishing',
+            released_on: '08 Apr 2022',
+            category: 'Fiction > Romance',
+            description
+	 */
+	const {
+		title,
+		author,
+		selling_price,
+		image_url,
+		released_on,
+		publisher,
+		category,
+		description,
+		max_retail_price,
+	} = data;
+	const dispatch = useDispatch();
+	const handleSelectBook = () => {
+		dispatch(setSelectedBookData(data));
+		handleDialogOpen();
+	};
+	const [openDialog, setOpenDialog] = useState(false);
+	const handleDialogOpen = () => {
+		setOpenDialog(true);
+	};
+	const handleDialogClose = () => {
+		setOpenDialog(false);
+	};
 	return (
-		<Card
-			// elevation={0}
-			variant="outlined"
-			sx={styles.card}
+		<Box
+			className={className}
+			sx={{
+				...styles.card,
+			}}
 		>
-			<AppLink
-				to={`/products/${documentID}`}
-				style={{ position: "relative" }}
+			<Box
+				sx={{
+					...styles.imageContainer,
+				}}
 			>
+				<AppImage
+					src={image_url ?? bookImage}
+					width={172}
+					height={200}
+					className="card_image"
+				/>
 				<Box
+					className="card_actions"
 					sx={{
-						position: "relative",
-						// padding: "8px",
+						...styles.imageOverlay,
 					}}
 				>
-					<AppImage
-						src={productThumbnail}
-						height="520px"
-						sx={{
-                            ...styles.cardImage,
-                        }}
-						alt={productName}
-					/>
-					{/* <Box
-                id="overlay"
-                sx={{
-                    width: "100%",
-                    height: "100%",
-                    minHeight: "250px",
-                    // maxHeight: "284px",
-                    overflow: "hidden",
-                    // borderRadius: "4px",
-                    position: "absolute",
-                    background: "rgba(0,0,0,0.1)",
-                    top: "0px",
-                    opacity: 0,
-                    "&:hover": {
-                        opacity: 1,
-                    },
-
-                    // width: "150px",
-                }}
-            > */}
-					{/* <IconButton
-    sx={{ position: "absolute", right: "10px", top: "4px" }}
-  >
-    <FaRegHeart /> */}
-					{/* </IconButton> */}
-					{/* </Box> */}
+					<OutlinedButton onClick={() => handleSelectBook()}>
+						Quick View
+					</OutlinedButton>
 				</Box>
-			</AppLink>
+			</Box>
 
-			<CardContent>
-				<AppLink
-					href={`/products/${documentID}`}
-					sx={{ textDecoration: "none", color: "inherit" }}
-				>
-					<Typography variant="h6" style={{ fontWeight: 700 }}>
-						{" "}
-						{productName}
-					</Typography>
-				</AppLink>
-				<Typography variant="body2" style={{ fontWeight: 700 }}>
-					{" "}
-					₹{productPrice}
-				</Typography>
-
-				{/* <HoverRating /> */}
-			</CardContent>
-
-			<CardActions>
-				<PrimaryButton
-					fullWidth
-					{...configAddToCartBtn}
-					endIcon={<FaCartPlus />}
-					onClick={() => handleAddToCart(product)}
-				>
-					{/* <Hidden only={["xs"]}>Add to cart</Hidden> */}
-				</PrimaryButton>
-			</CardActions>
-		</Card>
+			<Typography
+				sx={{
+					...styles.title,
+				}}
+			>
+				{title ?? "It ends with us"}
+			</Typography>
+			<Typography
+				sx={{
+					...styles.author,
+				}}
+			>
+				{author ?? "Colleen Hoover"}
+			</Typography>
+			<Typography
+				sx={{
+					...styles.price,
+				}}
+			>
+				{getCurrencyValue({
+					currencyValue: selling_price ?? 274,
+					maximumFractionDigits: 0,
+				})}
+				<strike>
+					{getCurrencyValue({
+						currencyValue: max_retail_price ?? 499,
+						maximumFractionDigits: 0,
+					})}
+				</strike>
+			</Typography>
+			{openDialog && (
+				<ProductPreviewDialog
+					open={openDialog}
+					handleClose={handleDialogClose}
+				/>
+			)}
+		</Box>
 	);
 }

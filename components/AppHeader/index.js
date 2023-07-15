@@ -8,6 +8,7 @@ import {
 	MenuItem,
 	Slide,
 	styled,
+	TextField,
 	Toolbar,
 	useScrollTrigger,
 } from "@mui/material";
@@ -19,9 +20,18 @@ import { BsBasket3, BsGrid3X3GapFill } from "react-icons/bs";
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
 	borderRadius: theme.shape.borderRadius,
-	backgroundColor: alpha(theme.palette.common.black, 0.15),
+	border: "1px solid rgba(0,0,0,0.1)",
+
+	backgroundColor: "white",
+	// alpha(theme.palette.common.black, 0.15),
 	"&:hover": {
-		backgroundColor: alpha(theme.palette.common.black, 0.25),
+		border: "1px solid #000000",
+
+		// backgroundColor:
+		// alpha(theme.palette.common.black, 0.25),
+	},
+	"&:focus-within": {
+		border: "1px solid #000000",
 	},
 	marginRight: theme.spacing(2),
 	marginLeft: 0,
@@ -78,6 +88,7 @@ const AppHeader = (props) => {
 				<AppBar
 					position="fixed"
 					variant="outlined"
+					elevation={0}
 					sx={{ background: "white", paddingTop: "4px" }}
 				>
 					<Toolbar>
