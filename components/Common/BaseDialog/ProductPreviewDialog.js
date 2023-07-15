@@ -4,7 +4,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import AppImage from "../AppImage";
 import { OutlinedButton, PrimaryButton } from "../Buttons";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductToCart } from "store/cart/cartSlice";
+import { addProductToCart, removeCartItem } from "store/cart/cartSlice";
 
 const mapState = ({ books }) => ({
 	selectedBookData: books.selectedBook,
@@ -15,6 +15,9 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 	const { image_url, title } = (selectedBookData && selectedBookData) ?? {};
 	const handleAddToCart = () => {
 		dispatch(addProductToCart(selectedBookData));
+	};
+	const handleRemoveFromCart = () => {
+		dispatch(removeCartItem(selectedBookData));
 	};
 
 	if (selectedBookData)
@@ -49,9 +52,15 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 					>
 						<AppImage src={image_url} width={172} height={200} />
 						<Box sx={{ display: "flex", alignItems: "center" }}>
-							<IconButton> -</IconButton>
+							<IconButton onClick={() => handleRemoveFromCart()}>
+								{" "}
+								-
+							</IconButton>
 							<span>1</span>
-							<IconButton> +</IconButton>
+							<IconButton onClick={() => handleAddToCart()}>
+								{" "}
+								+
+							</IconButton>
 						</Box>
 						<PrimaryButton onClick={() => handleAddToCart()}>
 							Add to cart
