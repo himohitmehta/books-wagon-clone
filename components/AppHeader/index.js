@@ -2,6 +2,7 @@ import {
 	alpha,
 	AppBar,
 	Avatar,
+	Badge,
 	Box,
 	IconButton,
 	InputBase,
@@ -17,6 +18,15 @@ import React from "react";
 import { MdGrid4X4, MdOutlineFavoriteBorder, MdSearch } from "react-icons/md";
 import { FaHeart, FaShoppingBasket } from "react-icons/fa";
 import { BsBasket3, BsGrid3X3GapFill } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import {
+	selectCartItems,
+	selectCartTotal,
+	selectCartItemsCount,
+} from "store/cart/cart.selectors";
+import { createStructuredSelector } from "reselect";
+
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
 	borderRadius: theme.shape.borderRadius,
@@ -81,76 +91,104 @@ function HideOnScroll(props) {
 		</Slide>
 	);
 }
+
+const mapState = ({ cart }) => ({
+	cartItems: cart.cartItems,
+});
+
+const mapCartState = createStructuredSelector({
+	cartItems: selectCartItems,
+	total: selectCartTotal,
+	count: selectCartItemsCount,
+});
+
 const AppHeader = (props) => {
+	const { children, window } = props;
+
+	const { cartItems } = useSelector(mapState);
+	const { cartItems: cartItems2, total, count } = useSelector(mapCartState);
+	const router = useRouter();
+	const trigger = useScrollTrigger({
+		target: window ? window() : undefined,
+	});
+
 	return (
 		<div>
-			<HideOnScroll {...props}>
-				<AppBar
-					position="fixed"
-					variant="outlined"
-					elevation={0}
-					sx={{ background: "white", paddingTop: "4px" }}
-				>
-					<Toolbar>
-						<AppImage
-							src="/logo-new.png"
-							width="70"
-							height="50"
-							alt="logo"
+			<AppBar
+				position="fixed"
+				variant="outlined"
+				elevation={0}
+				sx={{ background: "white", paddingTop: "4px" }}
+			>
+				<Toolbar>
+					<AppImage
+						src="/logo-new.png"
+						width="70"
+						height="50"
+						alt="logo"
+						onClick={() => router.push("/")}
+						sx={{
+							cursor: "pointer",
+						}}
+					/>
+					<Search>
+						<SearchIconWrapper>
+							<MdSearch />
+						</SearchIconWrapper>
+						<StyledInputBase
+							placeholder="Search by Title, Publisher or ISBN"
+							inputProps={{ "aria-label": "search" }}
 						/>
-						<Search>
-							<SearchIconWrapper>
-								<MdSearch />
-							</SearchIconWrapper>
-							<StyledInputBase
-								placeholder="Search by Title, Publisher or ISBN"
-								inputProps={{ "aria-label": "search" }}
-							/>
-						</Search>
-						<div style={{ flex: 1 }} />
-						<Box
+					</Search>
+					<div style={{ flex: 1 }} />
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "space-between",
+							width: "140px",
+							marginRight: "16px",
+						}}
+					>
+						<IconButton
 							sx={{
-								display: "flex",
-								justifyContent: "space-between",
-								width: "140px",
-								marginRight: "16px",
+								"&:hover": {
+									background: "rgba(255,255,255,0.4)",
+								},
 							}}
 						>
-							<IconButton
-								sx={{
-									"&:hover": {
-										background: "rgba(255,255,255,0.4)",
-									},
-								}}
-							>
-								<MdOutlineFavoriteBorder color="black" />
-							</IconButton>
-							<IconButton
-								sx={{
-									"&:hover": {
-										background: "rgba(255,255,255,0.4)",
-									},
-								}}
-							>
+							<MdOutlineFavoriteBorder color="black" />
+						</IconButton>
+						<IconButton
+							sx={{
+								"&:hover": {
+									background: "rgba(255,255,255,0.4)",
+								},
+							}}
+							onClick={() => router.push("/cart")}
+						>
+							<Badge badgeContent={count ?? 0} color="success">
+								{" "}
 								<BsBasket3 color="black" />
-							</IconButton>
-							<IconButton
-								sx={{
-									"&:hover": {
-										background: "rgba(255,255,255,0.4)",
-									},
-								}}
-							>
-								<BsGrid3X3GapFill color="black" />
-							</IconButton>
-						</Box>
-						<div>
-							<Avatar sx={{ width: "32px", height: "32px" }}>
-								M
-							</Avatar>
-						</div>
-					</Toolbar>
-					<Toolbar sx={{ display: "flex" }}>
+							</Badge>
+						</IconButton>
+						<IconButton
+							sx={{
+								"&:hover": {
+									background: "rgba(255,255,255,0.4)",
+								},
+							}}
+						>
+							<BsGrid3X3GapFill color="black" />
+						</IconButton>
+					</Box>
+					<div>
+						<Avatar sx={{ width: "32px", height: "32px" }}>
+							M
+						</Avatar>
+					</div>
+				</Toolbar>
+				<HideOnScroll {...props}>
+					<Toolbar sx={{ display: trigger ? "none" : "flex" }}>
 						{[
 							"Books",
 							"New Arrivals",
@@ -194,8 +232,8 @@ const AppHeader = (props) => {
 							Wishlist
 						</MenuItem>
 					</Toolbar>
-				</AppBar>
-			</HideOnScroll>
+				</HideOnScroll>
+			</AppBar>
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-export default function PrimaryButton({ children }) {
-	return <Button>{children}</Button>;
+export default function PrimaryButton({ children, ...props }) {
+	return <Button {...props}>{children}</Button>;
 }
