@@ -4,10 +4,11 @@ import React from "react";
 const StyledButton = styled(Button)(({ theme }) => ({
 	background: "white",
 	// textTransform: "capitalize",
-	fontSize:'13px',
-	lineHeight:'1.5',
-	fontWeight:'700',
-	
+	fontSize: "13px",
+	lineHeight: "1.5",
+	fontWeight: "700",
+	height: "36px",
+
 	"&:hover": {
 		background: "white",
 	},

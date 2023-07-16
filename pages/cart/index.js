@@ -10,6 +10,7 @@ import {
 	selectCartTotal,
 	selectCartItemsCount,
 } from "store/cart/cart.selectors";
+import getCurrencyValue from "utils/getCurrencyValue";
 
 const mapState = createStructuredSelector({
 	cartItems: selectCartItems,
@@ -62,18 +63,55 @@ export default function CartPage() {
 								lineHeight: "24px",
 								color: "#212529",
 								display: "flex",
-								justifyContent: "space-between",
+								justifyContent: "flex-end",
+								textAlign: "right",
+								"& div p": {
+									display: "flex",
+									justifyContent: "space-between",
+									"& span": {
+										ml: 2,
+									},
+								},
 							}}
 						>
+							{/* <div>
+							</div> */}
 							<div>
-								<p>Total: {total}</p>
-								<p>Total items: {count}</p>
-							</div>
-							<div>
-								<p>Shipping: 500</p>
 								<p>
+									Total items:<span> {count}</span>
+								</p>
+
+								<p>
+									Total:{" "}
+									<span>
+										{getCurrencyValue({
+											currencyValue: total,
+										})}
+									</span>
+								</p>
+
+								<p>
+									Shipping:
+									<span>
+										{" "}
+										{getCurrencyValue({
+											currencyValue: 500,
+										})}
+									</span>
+								</p>
+								<p
+									style={{
+										borderTop: `1px solid #cccccc`,
+										paddingTop: "12px",
+									}}
+								>
 									<strong>
-										Amount Payable: {total + 500}
+										Amount Payable:{" "}
+										<span>
+											{getCurrencyValue({
+												currencyValue: total + 500,
+											})}
+										</span>
 									</strong>
 								</p>
 							</div>

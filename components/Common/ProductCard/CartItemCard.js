@@ -9,6 +9,8 @@ import {
 	reduceCartItem,
 	removeCartItem,
 } from "store/cart/cartSlice";
+import CartQuantityInput from "../FormInputs/CartQuantityInput";
+import PriceView from "./components/PriceVIew";
 
 export default function CartItemCard({ data }) {
 	const dispatch = useDispatch();
@@ -42,16 +44,6 @@ export default function CartItemCard({ data }) {
 					"& h1": {
 						fontSize: "18px",
 					},
-					".price": {
-						fontSize: "18px",
-						fontWeight: 700,
-						color: (theme) => theme.palette.primary.main,
-						"& strike": {
-							fontSize: "14px",
-							lineHeight: "21px",
-							color: "#808080",
-						},
-					},
 					".author": {
 						fontSize: "14px",
 						lineHeight: "21px",
@@ -66,14 +58,10 @@ export default function CartItemCard({ data }) {
 				<p>
 					By: <span className="author">{data.author}</span>
 				</p>
-				<p className="price">
-					{getCurrencyValue({ currencyValue: data.selling_price })}
-					<strike>
-						{getCurrencyValue({
-							currencyValue: data.max_retail_price,
-						})}
-					</strike>
-				</p>
+				<PriceView
+					maxRetailPrice={data.max_retail_price}
+					sellingPrice={data.selling_price}
+				/>
 				<Box
 					sx={{
 						display: "flex",
@@ -85,48 +73,14 @@ export default function CartItemCard({ data }) {
 							lineHeight: "25.5px",
 							color: (theme) => theme.palette.primary.main,
 						},
+						mt: 2,
 					}}
 				>
-					<Box
-						sx={{
-							display: "flex",
-							alignItems: "center",
-							border: "1px solid rgba(0,0,0,0.1)",
-							borderRadius: "8px",
-							background: "white",
-							px: 1,
-							"& .quantity": {
-								borderRight: "1px solid rgba(0,0,0,0.1)",
-								borderLeft: "1px solid rgba(0,0,0,0.1)",
-								px: 2,
-								mx: 1,
-							},
-						}}
-					>
-						<IconButton
-							onClick={() => handleReduceCartItem()}
-							sx={{
-								"&:hover": {
-									background: "transparent",
-								},
-							}}
-						>
-							{" "}
-							-
-						</IconButton>
-						<span className="quantity"> {data.quantity}</span>
-						<IconButton
-							sx={{
-								"&:hover": {
-									background: "transparent",
-								},
-							}}
-							onClick={() => handleAddToCart()}
-						>
-							{" "}
-							+
-						</IconButton>
-					</Box>
+					<CartQuantityInput
+						quantity={data.quantity}
+						handleAddToCart={handleAddToCart}
+						handleReduceCartItem={handleReduceCartItem}
+					/>
 
 					<span className="total-price">
 						Total Price:{" "}
