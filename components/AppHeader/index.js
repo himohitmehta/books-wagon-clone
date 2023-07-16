@@ -99,10 +99,6 @@ function HideOnScroll(props) {
 	);
 }
 
-const mapState = ({ cart }) => ({
-	cartItems: cart.cartItems,
-});
-
 const mapCartState = createStructuredSelector({
 	cartItems: selectCartItems,
 	total: selectCartTotal,
@@ -112,7 +108,6 @@ const mapCartState = createStructuredSelector({
 const AppHeader = (props) => {
 	const { children, window } = props;
 
-	const { cartItems } = useSelector(mapState);
 	const { cartItems: cartItems2, total, count } = useSelector(mapCartState);
 	const router = useRouter();
 	const trigger = useScrollTrigger({

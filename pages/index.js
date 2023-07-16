@@ -44,7 +44,7 @@ const styles = {
 
 export default function Home() {
 	// get the books data from redux store =>books
-	const { books } = useSelector(mapState);
+	const books = useSelector((state) => state.books.booksData);
 	const dispatch = useDispatch();
 
 	// function to fetch the data from NexaFlow CMS
