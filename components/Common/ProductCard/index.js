@@ -12,7 +12,6 @@ import ProductPreviewDialog from "../BaseDialog/ProductPreviewDialog";
 
 const styles = {
 	card: {
-		// position: "relative",
 		maxWidth: "172px",
 		textAlign: "center",
 		border: "1px solid transparent",
@@ -120,6 +119,7 @@ export default function ProductCard({ data, className, ...props }) {
 	const handleDialogClose = () => {
 		setOpenDialog(false);
 	};
+	
 	return (
 		<Box
 			className={className}

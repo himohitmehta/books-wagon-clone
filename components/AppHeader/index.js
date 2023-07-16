@@ -15,7 +15,12 @@ import {
 } from "@mui/material";
 import AppImage from "components/Common/AppImage";
 import React from "react";
-import { MdGrid4X4, MdOutlineFavoriteBorder, MdSearch } from "react-icons/md";
+import {
+	MdGrid4X4,
+	MdOutlineFavoriteBorder,
+	MdOutlineShoppingCart,
+	MdSearch,
+} from "react-icons/md";
 import { FaHeart, FaShoppingBasket } from "react-icons/fa";
 import { BsBasket3, BsGrid3X3GapFill } from "react-icons/bs";
 import { useRouter } from "next/router";
@@ -26,6 +31,8 @@ import {
 	selectCartItemsCount,
 } from "store/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
+import AppLink from "components/Common/AppLink";
+import IconButtonWithTooltip from "components/Common/Buttons/IconButtonWithTooltip";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -145,63 +152,29 @@ const AppHeader = (props) => {
 						sx={{
 							display: "flex",
 							justifyContent: "space-between",
-							width: "140px",
+							// width: "140px",
 							marginRight: "16px",
 						}}
 					>
-						<IconButton
-							sx={{
-								"&:hover": {
-									background: "rgba(255,255,255,0.4)",
-								},
-							}}
-						>
+						<IconButtonWithTooltip title={`Wishlist`}>
 							<MdOutlineFavoriteBorder color="black" />
-						</IconButton>
-						<IconButton
-							sx={{
-								"&:hover": {
-									background: "rgba(255,255,255,0.4)",
-								},
-							}}
+						</IconButtonWithTooltip>
+						<IconButtonWithTooltip
+							title={`Cart`}
 							onClick={() => router.push("/cart")}
 						>
 							<Badge badgeContent={count ?? 0} color="success">
 								{" "}
-								<BsBasket3 color="black" />
+								<MdOutlineShoppingCart color="black" />
 							</Badge>
-						</IconButton>
-						<IconButton
-							sx={{
-								"&:hover": {
-									background: "rgba(255,255,255,0.4)",
-								},
-							}}
-						>
-							<BsGrid3X3GapFill color="black" />
-						</IconButton>
+						</IconButtonWithTooltip>
 					</Box>
-					<div>
-						<Avatar sx={{ width: "32px", height: "32px" }}>
-							M
-						</Avatar>
-					</div>
 				</Toolbar>
 				<HideOnScroll {...props}>
 					<Toolbar sx={{ display: trigger ? "none" : "flex" }}>
-						{[
-							"Books",
-							"New Arrivals",
-							"Box Sets",
-							"Best Sellers",
-							"Fiction Books",
-							"Award Winners",
-							"Featured Authors",
-							"Today's Deals",
-							"Request a Book",
-						].map((item) => (
+						{links.map((item, index) => (
 							<MenuItem
-								key={item}
+								key={index}
 								sx={{
 									color: "black",
 									fontWeight: 600,
@@ -212,25 +185,11 @@ const AppHeader = (props) => {
 										fontWeight: 600,
 									},
 								}}
+								onClick={() => router.push(`/books`)}
 							>
-								{item}
+								{item.title}
 							</MenuItem>
 						))}{" "}
-						<div style={{ flex: 1 }} />
-						<MenuItem
-							sx={{
-								color: "black",
-								fontWeight: 600,
-								"&:hover": {
-									color: (theme) =>
-										theme.palette.primary.main,
-									background: "transparent",
-									fontWeight: 600,
-								},
-							}}
-						>
-							Wishlist
-						</MenuItem>
 					</Toolbar>
 				</HideOnScroll>
 			</AppBar>
@@ -239,3 +198,34 @@ const AppHeader = (props) => {
 };
 
 export default AppHeader;
+
+// links for navigation
+const links = [
+	{
+		title: "Books",
+	},
+	{
+		title: "New Arrivals",
+	},
+	{
+		title: "Box Sets",
+	},
+	{
+		title: "Best Sellers",
+	},
+	{
+		title: "Fiction Books",
+	},
+	{
+		title: "Award Winners",
+	},
+	{
+		title: "Featured Authors",
+	},
+	{
+		title: "Today's Deals",
+	},
+	{
+		title: "Request a Book",
+	},
+];

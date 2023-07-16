@@ -1,11 +1,7 @@
 import React from "react";
-import placeholder from "public/assets/placeholder/empty_state1.png";
 import { Box, Typography } from "@mui/material";
 import AppImage from "../AppImage";
 import DescriptionText from "../Typography/BodyText/DescriptionText";
-import PrimaryButton from "../Buttons/PrimaryButton";
-import { Outbound } from "@mui/icons-material";
-import OutlinedButton from "../Buttons/OutlinedButton";
 
 export default function EmptyState({
 	icon,
@@ -29,14 +25,6 @@ export default function EmptyState({
 				...containerStyles,
 			}}
 		>
-			{icon ?? <AppImage src={placeholder} width="150" height="150" />}
-
-			{/* <AppImage
-        src={image}
-        width="190"
-        height="180"
-        sx={{ mb: 1, ...imageStyles }}
-      /> */}
 			{text && (
 				<DescriptionText
 					sx={{
@@ -46,7 +34,7 @@ export default function EmptyState({
 						my: 1,
 					}}
 				>
-					{text || "No Products availiable !"}
+					{text || ""}
 				</DescriptionText>
 			)}
 			{bodyText && (
@@ -61,8 +49,7 @@ export default function EmptyState({
 						mb: 3,
 					}}
 				>
-					{bodyText ||
-						"Look Like you have not added any store. You can add new purchase order by clicking below"}
+					{bodyText || ""}
 				</Typography>
 			)}
 

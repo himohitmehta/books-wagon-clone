@@ -22,6 +22,7 @@ const styles = {
 		},
 	},
 };
+// input component for updating cart quantity for a product
 export default function CartQuantityInput({
 	quantity,
 	handleAddToCart,
