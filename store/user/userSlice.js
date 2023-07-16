@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	currentUser: {},
 };
+// user slice for storing the user data
+// ! not used in this project
 
 const userSlice = createSlice({
 	name: "user",

@@ -63,13 +63,13 @@ export default function Home() {
 				// action to set the books data in redux store
 				dispatch(setBooksData(cms_Books_List));
 				/** your code goes here **/
-				console.log({
-					cms_page_Homepage,
-					cms_Books_List,
-					cms_Books,
-					cms_parsed_data,
-					cms_list,
-				});
+				// console.log({
+				// 	cms_page_Homepage,
+				// 	cms_Books_List,
+				// 	cms_Books,
+				// 	cms_parsed_data,
+				// 	cms_list,
+				// });
 			})
 			.catch((e) => {
 				console.log(e);

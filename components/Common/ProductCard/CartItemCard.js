@@ -12,6 +12,7 @@ import {
 import CartQuantityInput from "../FormInputs/CartQuantityInput";
 import PriceView from "./components/PriceVIew";
 import { toast } from "sonner";
+import { useRouter } from "next/router";
 
 const styles = {
 	container: {
@@ -25,6 +26,10 @@ const styles = {
 		ml: 4,
 		"& h1": {
 			fontSize: "18px",
+			cursor: "pointer",
+			"&:hover": {
+				textDecoration: "underline",
+			},
 		},
 		".author": {
 			fontSize: "14px",
@@ -51,6 +56,7 @@ const styles = {
 
 export default function CartItemCard({ data }) {
 	const dispatch = useDispatch();
+	const router = useRouter();
 
 	const handleAddToCart = () => {
 		dispatch(addProductToCart(data));
@@ -62,6 +68,9 @@ export default function CartItemCard({ data }) {
 	};
 	const handleReduceCartItem = () => {
 		dispatch(reduceCartItem(data));
+	};
+	const handleProductNavigation = () => {
+		router.push(`/books/${data.id}`);
 	};
 
 	return (
@@ -78,7 +87,7 @@ export default function CartItemCard({ data }) {
 					...styles.heading,
 				}}
 			>
-				<h1>{data.title}</h1>
+				<h1 onClick={() => handleProductNavigation()}>{data.title}</h1>
 				<p>
 					By: <span className="author">{data.author}</span>
 				</p>

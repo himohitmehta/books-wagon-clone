@@ -12,6 +12,8 @@ import {
 	PURGE,
 	REGISTER,
 } from "redux-persist";
+
+//  configure the redux store
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware:
@@ -44,8 +46,9 @@ export const store = configureStore({
 					}),
 	devTools: process.env.NODE_ENV !== "production",
 });
+
+// exporting the persistor, i.e. the persisted version of the store
 export const persistor = persistStore(store);
-// initMessageListener(store);
 
 export default {
 	store,
