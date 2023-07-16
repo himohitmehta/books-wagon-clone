@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
+// render the html content
 export default function RenderHTML({ content, sx, ...props }) {
 	return (
 		<Typography

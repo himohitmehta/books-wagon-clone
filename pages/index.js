@@ -14,14 +14,42 @@ import { useEffect } from "react";
 import { getPageAndParse } from "sections/HomePageSections/api_helpers/helper";
 import { setBooksData } from "store/books/booksSlice";
 
+// get the books data from redux store
 const mapState = ({ books }) => ({
 	books: books.booksData,
 });
+
+// styles for the home page
+const styles = {
+	gridItemStyles: {
+		".featured_image": {
+			width: "100%",
+			objectFit: "contain",
+			maxWidth: "100%",
+			height: "100%",
+		},
+	},
+	title: {
+		fontSize: " 32px",
+		fontWeight: 500,
+		lineHeight: " 38.4px",
+		fontStyle: "italic",
+	},
+	gridContainerStyles: {
+		py: 3,
+		borderBottom: "1px solid #e0e0e0",
+		pb: 6,
+	},
+};
+
 export default function Home() {
+	// get the books data from redux store =>books
 	const { books } = useSelector(mapState);
 	const dispatch = useDispatch();
 
+	// function to fetch the data from NexaFlow CMS
 	const handleFetchBlocksData = () => {
+		// this function will fetch the data from NexaFlow CMS
 		getPageAndParse()
 			.then((cms_parsed_data) => {
 				//this variable contains whole page data;
@@ -32,6 +60,7 @@ export default function Home() {
 				const cms_Books_List = cms_parsed_data["Books_List"];
 				const cms_list = cms_parsed_data["list"];
 
+				// action to set the books data in redux store
 				dispatch(setBooksData(cms_Books_List));
 				/** your code goes here **/
 				console.log({
@@ -46,15 +75,16 @@ export default function Home() {
 				console.log(e);
 			});
 	};
+	// to start fetching the data from NexaFlow CMS on page load
 	useEffect(() => {
 		handleFetchBlocksData();
 	}, []);
 
-	console.log({ books });
 	return (
 		<BaseLayout>
 			<HeroSection />
 			<Container maxWidth="xl">
+				{/* mapping the first two items from books array */}
 				{books.slice(0, 2).map((item, index) => (
 					<ProductsSlider
 						key={index}
@@ -62,69 +92,41 @@ export default function Home() {
 						data={books[0].list}
 					/>
 				))}
+
+				{/* grid to show the featured section */}
 				<Grid
 					container
 					spacing={4}
 					sx={{
-						py: 3,
-						borderBottom: "1px solid #e0e0e0",
-						pb: 6,
+						...styles.gridContainerStyles,
 					}}
 				>
-					<Grid
-						item
-						md={6}
-						xs={12}
-						sx={{
-							".featured_image": {
-								width: "100%",
-								objectFit: "contain",
-								maxWidth: "100%",
-								height: "100%",
-							},
-						}}
-					>
-						<Typography
+					{featuredData.map((item, index) => (
+						<Grid
+							key={index}
+							item
+							md={6}
+							xs={12}
 							sx={{
-								fontSize: " 32px",
-								fontWeight: 500,
-								lineHeight: " 38.4px",
-								fontStyle: "italic",
+								...styles.gridItemStyles,
 							}}
 						>
-							Fiction Books
-						</Typography>
-						<AppImage
-							src={fictionImage}
-							className="featured_image"
-						/>
-					</Grid>
-					<Grid
-						item
-						md={6}
-						xs={12}
-						sx={{
-							".featured_image": {
-								width: "100%",
-								objectFit: "contain",
-								maxWidth: "100%",
-								height: "100%",
-							},
-						}}
-					>
-						<Typography
-							sx={{
-								fontSize: " 32px",
-								fontWeight: 500,
-								lineHeight: " 38.4px",
-								fontStyle: "italic",
-							}}
-						>
-							Manga Books
-						</Typography>
-						<AppImage src={mangaImage} className="featured_image" />
-					</Grid>
+							<Typography
+								sx={{
+									...styles.title,
+								}}
+							>
+								{item.title}
+							</Typography>
+							<AppImage
+								src={item.image}
+								className="featured_image"
+							/>
+						</Grid>
+					))}
 				</Grid>
+
+				{/* mapping the remaining items from books array */}
 				{books.slice(2, 6).map((item, index) => (
 					<ProductsSlider
 						key={index}
@@ -136,3 +138,15 @@ export default function Home() {
 		</BaseLayout>
 	);
 }
+
+// data for the featured section
+const featuredData = [
+	{
+		title: "Fiction Books",
+		image: fictionImage,
+	},
+	{
+		title: "Manga Books",
+		image: mangaImage,
+	},
+];

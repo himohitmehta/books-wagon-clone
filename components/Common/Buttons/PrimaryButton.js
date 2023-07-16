@@ -7,6 +7,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 	height: "36px",
 }));
 
+//  the primary button for the app
 export default function PrimaryButton({ children, ...props }) {
 	return (
 		<StyledButton

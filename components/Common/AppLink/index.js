@@ -9,6 +9,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 		textDecoration: "underline",
 	},
 }));
+//  the link component for the app, built on top of next/link and mui
 const AppLink = ({ children, href, ...props }) => {
 	return (
 		<StyledLink href={href} {...props}>

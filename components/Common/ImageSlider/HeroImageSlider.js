@@ -93,32 +93,6 @@ export default function HeroImageSlider({ data = [], title, customSettings }) {
 				...styles.container,
 			}}
 		>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: title ? "space-between" : "flex-end",
-					flex: 1,
-					marginBottom: "8px",
-				}}
-			>
-				{title && (
-					<Typography
-						sx={{
-							fontWeight: "700",
-							fontSize: "18px",
-							// paddingLeft: "15px",
-							flex: 0.8,
-							lineHeight: "38px",
-							letterSpacing: ` -0.01em`,
-							color: (theme) => theme.palette.text.primary,
-						}}
-					>
-						{title}
-					</Typography>
-				)}
-			</div>
-
 			{data.length > 0 && (
 				<Slider
 					ref={setSliderRef}

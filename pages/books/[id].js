@@ -7,6 +7,7 @@ import {
 	Typography,
 } from "@mui/material";
 import AppImage from "components/Common/AppImage";
+import AppLink from "components/Common/AppLink";
 import { OutlinedButton, PrimaryButton } from "components/Common/Buttons";
 import ProductsSlider from "components/Common/ImageSlider/ProductsSlider";
 import PriceView from "components/Common/ProductCard/components/PriceVIew";
@@ -16,19 +17,47 @@ import { useRouter } from "next/router";
 import React from "react";
 import { MdNavigateNext } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import ProductActions from "sections/ProductsPageSections/components/ProductActions";
+import ProductInfo from "sections/ProductsPageSections/components/ProductInfo";
+import ShippingInfoSection from "sections/ProductsPageSections/components/ShippingInfoSection";
 import { toast } from "sonner";
-import { handleAddToCart } from "store/cart/cart.utils";
 import { addProductToCart } from "store/cart/cartSlice";
 
+// get the books data from redux store
 const mapState = ({ books }) => ({
 	selectedBookData: books.selectedBook,
 	booksData: books.booksData,
 });
-export default function BookDetailPage({}) {
+const styles = {
+	heading: {
+		fontSize: "16px",
+		lineHeight: "24px",
+		fontWeight: 700,
+
+		color: (theme) => theme.palette.primary.main,
+	},
+	column: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	detailRow: {
+		display: "flex",
+		// mb: 1,
+		fontSize: "14px",
+		lineHeight: "25px",
+		"& span": {
+			fontWeight: 700,
+			marginRight: "8px",
+		},
+	},
+};
+export default function BookDetailPage() {
+	// get the books data from redux store => booksData, selectedBookData
 	const { selectedBookData, booksData } = useSelector(mapState);
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const { id } = router.query;
+	// extracting keys from selectedBookData
 	const {
 		title,
 		description,
@@ -38,10 +67,14 @@ export default function BookDetailPage({}) {
 		released_on,
 		publisher,
 	} = selectedBookData ?? {};
+	// function to add book to cart
 	const handleAddBookToCart = () => {
+		// dispatching action to add book to cart
 		dispatch(addProductToCart(selectedBookData));
+		// toast notification
 		toast.success("Book added to cart!", {
 			action: {
+				// button to view cart
 				label: "View Cart",
 				onClick: () => router.push("/cart"),
 			},
@@ -55,7 +88,7 @@ export default function BookDetailPage({}) {
 					<Breadcrumbs
 						separator={<MdNavigateNext fontSize="small" />}
 					>
-						<>Home</>
+						<AppLink href={"/"}>Home</AppLink>
 						<>Books</>
 					</Breadcrumbs>
 					<Box sx={{ display: "flex", flex: 1, mt: 2 }}>
@@ -70,44 +103,14 @@ export default function BookDetailPage({}) {
 							sx={{
 								flex: 1,
 								ml: 4,
-								"& div h1": {},
 							}}
 						>
-							<Box
-								sx={{
-									display: "flex",
-									alignItems: "center",
-									fontSize: "16px",
-									lineHeight: "24px",
-									fontWeight: 500,
-									color: "#212529",
-									"& h1": {
-										fontSize: "24px",
-										fontWeight: 500,
-										color: (theme) =>
-											theme.palette.primary.main,
-										mr: 1,
-									},
-								}}
-							>
-								<h1>{title}</h1> (Paperback) | Released:{" "}
-								{released_on}
-							</Box>
-							<Typography
-								sx={{
-									fontSize: "16px",
-									lineHeight: "24px",
-									fontWeight: 500,
-									"& .author": {
-										color: (theme) =>
-											theme.palette.primary.main,
-									},
-									mb: 2,
-								}}
-							>
-								By:<span className="author"> {author}</span>{" "}
-								(Author) | Publisher: {publisher}
-							</Typography>
+							<ProductInfo
+								author={author}
+								released_on={released_on}
+								publisher={publisher}
+								title={title}
+							/>
 							<Box sx={{ display: "flex", mb: 2 }}>
 								<Rating
 									name="half-rating"
@@ -123,54 +126,11 @@ export default function BookDetailPage({}) {
 								}
 								sellingPrice={selectedBookData.selling_price}
 							/>
-							<Box
-								sx={{
-									my: 2,
-									mt: 3,
-									"& .status": {
-										color: "#008000",
-										mb: -2,
-									},
-									"& .shipping-info": {
-										// pt: 1,
-										pb: 1,
-									},
-								}}
-							>
-								<span className="status"> Available</span>
-								<br />
-								<span>
-									Ships within{" "}
-									<strong>2-4 Business Days</strong>
-								</span>
-								<br />
-								<span className="shipping-info">
-									{" "}
-									₹39 shipping in India per item and low cost
-									Worldwide.
-								</span>
-							</Box>
-							<Box
-								sx={{
-									display: "flex",
-									alignItems: "center",
-									flex: 1,
-									maxWidth: "50%",
-								}}
-							>
-								<PrimaryButton
-									fullWidth
-									sx={{
-										mr: 2,
-									}}
-									onClick={() => handleAddBookToCart()}
-								>
-									Buy Now
-								</PrimaryButton>
-								<OutlinedButton fullWidth>
-									Add to Wishlist
-								</OutlinedButton>
-							</Box>
+							<ShippingInfoSection />
+
+							<ProductActions
+								handleAddBookToCart={handleAddBookToCart}
+							/>
 						</Box>
 					</Box>
 					<Box>
@@ -178,12 +138,7 @@ export default function BookDetailPage({}) {
 							<Box
 								sx={{
 									"& h4": {
-										fontSize: "16px",
-										lineHeight: "24px",
-										fontWeight: 700,
-
-										color: (theme) =>
-											theme.palette.primary.main,
+										...styles.heading,
 									},
 								}}
 							>
@@ -199,24 +154,21 @@ export default function BookDetailPage({}) {
 						title={booksData[0].Title}
 						data={booksData[0].list}
 					/>
+					{/* Showing product details info, like  */}
 					<Box
 						sx={{
 							"& h4": {
-								fontSize: "16px",
-								lineHeight: "24px",
-								fontWeight: 700,
-								color: (theme) => theme.palette.primary.main,
-								// mb: ,
+								...styles.heading,
 								mb: 0,
 							},
 						}}
 					>
 						<h4>Product Details</h4>
+
 						<Box sx={{ display: "flex", mb: 4 }}>
 							<Box
 								sx={{
-									display: "flex",
-									flexDirection: "column",
+									...styles.column,
 									pr: 4,
 								}}
 							>
@@ -225,29 +177,18 @@ export default function BookDetailPage({}) {
 									.map(([key, value], index) => (
 										<Box
 											sx={{
-												display: "flex",
-												// mb: 1,
-												fontSize: "14px",
-												lineHeight: "25px",
+												...styles.detailRow,
 											}}
 											key={index}
 										>
-											<span
-												style={{
-													fontWeight: 700,
-													marginRight: "8px",
-												}}
-											>
-												{key}:{" "}
-											</span>
+											<span>{key}: </span>
 											{value}
 										</Box>
 									))}
 							</Box>
 							<div
 								style={{
-									display: "flex",
-									flexDirection: "column",
+									...styles.column,
 								}}
 							>
 								{Object.entries(productDetails)
@@ -255,21 +196,11 @@ export default function BookDetailPage({}) {
 									.map(([key, value], index) => (
 										<Box
 											sx={{
-												display: "flex",
-												// mb: 1,
-												fontSize: "14px",
-												lineHeight: "25px",
+												...styles.detailRow,
 											}}
 											key={index}
 										>
-											<span
-												style={{
-													fontWeight: 700,
-													marginRight: "8px",
-												}}
-											>
-												{key}:{" "}
-											</span>
+											<span>{key}: </span>
 											{value}
 										</Box>
 									))}
@@ -277,10 +208,12 @@ export default function BookDetailPage({}) {
 						</Box>
 					</Box>{" "}
 					<Divider />
+					{/* List of similar products, currently showing only the best sellers data */}
 					<ProductsSlider
 						title={"Similar products"}
 						data={booksData[0].list}
 					/>
+					{/* List of new arrivals, currently showing only the best sellers data */}
 					<ProductsSlider
 						title={"New Arrivals"}
 						data={booksData[0].list}
@@ -290,6 +223,7 @@ export default function BookDetailPage({}) {
 		);
 }
 
+// object for product details to show in product details page
 const productDetails = {
 	"ISBN-13": "9781416591054",
 	Publisher: "Scribner Book Company",

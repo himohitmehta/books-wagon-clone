@@ -70,6 +70,8 @@ const styles = {
 	},
 };
 
+//  the slider to show list of products on home page,
+// used for best Sellers, new arrivals, etc.
 export default function ProductsSlider({ data = [], title, customSettings }) {
 	const [sliderRef, setSliderRef] = useState(null);
 	const [index, setIndex] = useState(0);
@@ -144,7 +146,6 @@ export default function ProductsSlider({ data = [], title, customSettings }) {
 						})}
 				</Slider>
 			)}
-			{/* {data.length === 0 && <EmptyState text={"No images found"} />} */}
 		</Box>
 	);
 }

@@ -19,6 +19,65 @@ import { toast } from "sonner";
 const mapState = ({ books }) => ({
 	selectedBookData: books.selectedBook,
 });
+
+// styles for the dialog component
+const styles = {
+	container: {
+		display: "flex",
+		// justifyContent: "space-between",
+		flex: 1,
+	},
+	leftColumn: {
+		display: "flex",
+		flexDirection: "column",
+		flex: 0.3,
+		alignItems: "center",
+	},
+	rightColumnContainer: {
+		pl: 4,
+	},
+	rightColumn: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	buttonStyles: {
+		mt: 2,
+		width: "100%",
+	},
+	title: {
+		fontSize: "20px",
+		fontWeight: 500,
+		fontStyle: "italic",
+		lineHeight: "24px",
+		color: "#212529",
+		mt: 3,
+	},
+	otherInfo: {
+		fontSize: "16px",
+		lineHeight: "24px",
+		color: "#717171",
+		mt: 3,
+		mb: 3,
+	},
+	description: {
+		WebkitLineClamp: 6,
+		WebkitBoxOrient: "vertical",
+		display: "-webkit-box",
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		lineClamp: 6,
+	},
+	buttonContainer: {
+		display: "flex",
+		justifyContent: "center",
+		mt: 3,
+	},
+	button: {
+		maxWidth: "100%",
+		width: "80%",
+	},
+};
+// product preview dialog used for showing product details in a dialog
 export default function ProductPreviewDialog({ open, handleClose }) {
 	const { selectedBookData } = useSelector(mapState);
 	const router = useRouter();
@@ -44,7 +103,6 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 				onClick: () => router.push("/cart"),
 			},
 		});
-	
 	};
 
 	function handleViewDetailsClick() {
@@ -55,18 +113,13 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 			<BaseDialog open={open} handleClose={handleClose}>
 				<Box
 					sx={{
-						display: "flex",
-						// justifyContent: "space-between",
-						flex: 1,
+						...styles.container,
 					}}
 				>
 					{/* Left side  */}
 					<Box
 						sx={{
-							display: "flex",
-							flexDirection: "column",
-							flex: 0.3,
-							alignItems: "center",
+							...styles.leftColumn,
 						}}
 					>
 						<AppImage
@@ -82,8 +135,7 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 						/>
 						<PrimaryButton
 							sx={{
-								mt: 2,
-								width: "100%",
+								...styles.buttonStyles,
 							}}
 							onClick={() => handleAddToCart()}
 						>
@@ -91,8 +143,7 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 						</PrimaryButton>
 						<OutlinedButton
 							sx={{
-								mt: 2,
-								width: "100%",
+								...styles.buttonStyles,
 							}}
 						>
 							Add to wishlist
@@ -103,8 +154,16 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 					</Box>
 
 					{/* Right side  */}
-					<Box sx={{ pl: 4 }}>
-						<Box sx={{ display: "flex", flexDirection: "column" }}>
+					<Box
+						sx={{
+							...styles.rightColumnContainer,
+						}}
+					>
+						<Box
+							sx={{
+								...styles.rightColumn,
+							}}
+						>
 							<PriceView
 								maxRetailPrice={
 									selectedBookData?.max_retail_price
@@ -113,23 +172,14 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 							/>
 							<Typography
 								sx={{
-									fontSize: "20px",
-									fontWeight: 500,
-									fontStyle: "italic",
-									lineHeight: "24px",
-									color: "#212529",
-									mt: 3,
+									...styles.title,
 								}}
 							>
 								{selectedBookData.title}
 							</Typography>
 							<Typography
 								sx={{
-									fontSize: "16px",
-									lineHeight: "24px",
-									color: "#717171",
-									mt: 3,
-									mb: 3,
+									...styles.otherInfo,
 								}}
 							>
 								By: {selectedBookData.author}(Author) |
@@ -139,26 +189,18 @@ export default function ProductPreviewDialog({ open, handleClose }) {
 							<RenderHTML
 								content={selectedBookData.description}
 								sx={{
-									WebkitLineClamp: 6,
-									WebkitBoxOrient: "vertical",
-									display: "-webkit-box",
-									overflow: "hidden",
-									textOverflow: "ellipsis",
-									lineClamp: 6,
+									...styles.description,
 								}}
 							/>
 						</Box>
 						<Box
 							sx={{
-								display: "flex",
-								justifyContent: "center",
-								mt: 3,
+								...styles.buttonContainer,
 							}}
 						>
 							<OutlinedButton
 								sx={{
-									maxWidth: "100%",
-									width: "80%",
+									...styles.button,
 								}}
 								onClick={() => handleViewDetailsClick()}
 							>

@@ -2,6 +2,8 @@ import { Typography } from "@mui/material";
 import React from "react";
 import getCurrencyValue from "utils/getCurrencyValue";
 
+
+//  component for showing price
 export default function PriceView({ sellingPrice, maxRetailPrice }) {
 	return (
 		<Typography

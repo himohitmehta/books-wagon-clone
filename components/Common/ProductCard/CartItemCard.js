@@ -11,6 +11,43 @@ import {
 } from "store/cart/cartSlice";
 import CartQuantityInput from "../FormInputs/CartQuantityInput";
 import PriceView from "./components/PriceVIew";
+import { toast } from "sonner";
+
+const styles = {
+	container: {
+		display: "flex",
+		width: "100%",
+		maxWidth: "100%",
+		flex: 1,
+	},
+	heading: {
+		flex: 1,
+		ml: 4,
+		"& h1": {
+			fontSize: "18px",
+		},
+		".author": {
+			fontSize: "14px",
+			lineHeight: "21px",
+			color: "blue",
+			"&:hover": {
+				color: "#032A78",
+			},
+		},
+	},
+	bottomRow: {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		".total-price": {
+			fontSize: "17px",
+			fontWeight: 700,
+			lineHeight: "25.5px",
+			color: (theme) => theme.palette.primary.main,
+		},
+		mt: 2,
+	},
+};
 
 export default function CartItemCard({ data }) {
 	const dispatch = useDispatch();
@@ -20,6 +57,8 @@ export default function CartItemCard({ data }) {
 	};
 	const handleRemoveFromCart = () => {
 		dispatch(removeCartItem(data));
+
+		toast.success("Item removed from cart!");
 	};
 	const handleReduceCartItem = () => {
 		dispatch(reduceCartItem(data));
@@ -28,10 +67,7 @@ export default function CartItemCard({ data }) {
 	return (
 		<Box
 			sx={{
-				display: "flex",
-				width: "100%",
-				maxWidth: "100%",
-				flex: 1,
+				...styles.container,
 			}}
 		>
 			<Badge badgeContent={"30%"} color="success">
@@ -39,19 +75,7 @@ export default function CartItemCard({ data }) {
 			</Badge>
 			<Box
 				sx={{
-					flex: 1,
-					ml: 4,
-					"& h1": {
-						fontSize: "18px",
-					},
-					".author": {
-						fontSize: "14px",
-						lineHeight: "21px",
-						color: "blue",
-						"&:hover": {
-							color: "#032A78",
-						},
-					},
+					...styles.heading,
 				}}
 			>
 				<h1>{data.title}</h1>
@@ -64,16 +88,7 @@ export default function CartItemCard({ data }) {
 				/>
 				<Box
 					sx={{
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-						".total-price": {
-							fontSize: "17px",
-							fontWeight: 700,
-							lineHeight: "25.5px",
-							color: (theme) => theme.palette.primary.main,
-						},
-						mt: 2,
+						...styles.bottomRow,
 					}}
 				>
 					<CartQuantityInput

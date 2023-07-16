@@ -2,6 +2,7 @@ import { Dialog, IconButton } from "@mui/material";
 import React from "react";
 import { MdClose } from "react-icons/md";
 
+// custom base dialog component for the app
 export default function BaseDialog({
 	children,
 	open,
